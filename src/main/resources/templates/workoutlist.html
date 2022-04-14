@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Workout list</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container">
+<div class="col-md-4">
+	<h1>Workouts</h1>
+	</div>
+	<div class="col-md-4">
+		<h3 th:inline="text">Welcome
+			[[${#httpServletRequest.remoteUser}]]</h3> <!-- Shows greeting to the currently logged in user -->
+	</div>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
+		</form>
+	</div>
+	
+	
+
+	 <table class="table table-striped">
+		<tr>
+			<th>Date</th>
+			<th>Title</th>
+			<th>Distance (km)</th>
+			<th>Duration (min)</th>
+			<th>Goal</th>
+			
+
+
+		</tr>
+		<tr th:each="workout : ${workouts}">
+			<td th:text="${#temporals.format(workout.date, 'dd.MM.yyyy')}"></td>
+			<td th:text="${workout.title}"></td>
+			<td th:text="${workout.distance}"></td>
+			<td th:text="${workout.duration}"></td>
+			<td th:text="${workout.runninggoal.name}"></td>
+			
+			
+			<td><a th:href="@{/delete/{id}(id=${workout.id})}" class="btn btn-xs btn-danger">Delete</a></td>
+			<td><a th:href="@{/edit/{id}(id=${workout.id})}" class="btn btn-primary">Edit</a></td>
+
+
+
+		</tr>
+
+
+	</table>
+	<a href="/add" class="btn btn-primary">Add Workout</a>
+</div>
+</body>
+</html>
